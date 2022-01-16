@@ -26,7 +26,7 @@ namespace BasicWebServer.Server.Routing
             {
                 Method.GET => MapGet(url, response),
                 Method.POST => MapPost(url, response),
-                _ => throw new InvalidOperationException($"Method '{method}' is not supported.");
+                _ => throw new InvalidOperationException($"Method '{method}' is not supported.")
             };
         }
 
