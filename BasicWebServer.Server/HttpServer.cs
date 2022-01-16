@@ -35,7 +35,7 @@ namespace BasicWebServer.Server
                 var requestText = ReadRequest(networkStream);
 
                 Console.WriteLine(requestText);
-                //WriteResponce(networkStream, "Hello from the server!");
+                WriteResponce(networkStream, "Hello from the server!");
 
                 connection.Close();
             }
