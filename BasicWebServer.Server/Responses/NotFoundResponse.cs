@@ -4,7 +4,7 @@ namespace BasicWebServer.Server.Responses
 {
     public class NotFoundResponse : Response
     {
-        public NotFoundResponse(StatusCode statusCode)
+        public NotFoundResponse()
             : base(StatusCode.NotFount)
         {
         }
