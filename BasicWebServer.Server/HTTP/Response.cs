@@ -1,14 +1,14 @@
 ﻿namespace BasicWebServer.Server.HTTP
 {
-    public class Responce
+    public class Response
     {
-        public Responce(StatusCode statusCode)
+        public Response(StatusCode statusCode)
         {
             StatusCode = statusCode;
 
             Headers = new HeaderCollection();
-            Headers.Add("Server", "My Web Server");
-            Headers.Add("Date", $"{DateTime.UtcNow:R}");
+            Headers.Add(Header.Server, "My Web Server");
+            Headers.Add(Header.Date, $"{DateTime.UtcNow:R}");
             
         }
 
