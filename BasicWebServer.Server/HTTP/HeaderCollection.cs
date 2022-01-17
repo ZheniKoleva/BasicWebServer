@@ -11,14 +11,14 @@ namespace BasicWebServer.Server.HTTP
             headers = new Dictionary<string, Header>();
         }
 
+        public string this[string name] => headers[name].Value;
+
         public int Count => headers.Count;
 
-        public void Add(string name, string value)
-        {
-            var header = new Header(name, value);
+        public bool Contains(string name) => headers.ContainsKey(name);
 
-            headers.Add(name, header);
-        }
+        public void Add(string name, string value)
+            => headers[name] = new Header(name, value);      
 
         public IEnumerator<Header> GetEnumerator()
             => headers.Values.GetEnumerator();
