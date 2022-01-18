@@ -85,7 +85,7 @@ namespace BasicWebServer.Server.HTTP
                 }
 
                 var headerName = headerParts[0];
-                var headerValue = headerParts[1];
+                var headerValue = headerParts[1].Trim();
 
                 headerCollection.Add(headerName, headerValue);               
             }
