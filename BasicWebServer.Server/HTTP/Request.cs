@@ -16,7 +16,7 @@ namespace BasicWebServer.Server.HTTP
 
         public static Request Parse(string request)
         {
-            var lines = request.Split("\r\n");
+            var lines = request.Split($"{Environment.NewLine}");
 
             var startLine = lines.First().Split(" ");
 
