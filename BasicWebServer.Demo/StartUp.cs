@@ -1,6 +1,8 @@
 ﻿using BasicWebServer.Server;
 using BasicWebServer.Server.HTTP;
 using BasicWebServer.Server.Responses;
+using System.Text;
+using System.Web;
 
 public class StartUp
 {
@@ -28,12 +30,54 @@ Age: <input type='number' name ='Age'/>
             .MapGet("/HTML", new HtmlResponse(StartUp.HtmlForm))
             .MapPost("/HTML", new TextResponse("", StartUp.AddFormDataAction))
             .MapGet("/Content", new HtmlResponse(StartUp.DownloadForm))
-            .MapPost("/Content", new TextFileResponse(StartUp.FileName)));
+            .MapPost("/Content", new TextFileResponse(StartUp.FileName))
+            .MapGet("/Cookies", new HtmlResponse("", StartUp.AddCookiesAction)));
 
         await server.Start();
     }
 
+    private static void AddCookiesAction(Request request, Response response)
+    {
+        var requestHasCookies = request.Cookies.Any();
+        var bodyText = string.Empty;
 
+        if (requestHasCookies)
+        {
+            var cookieText = new StringBuilder();
+            cookieText.AppendLine("<h1>Cookies</h1>");
+            cookieText
+                .Append("<table border='1'><tr><th>Name</th><th>Value</th></tr>");
+
+            foreach (var cookie in request.Cookies)
+            {
+                cookieText.Append("<tr>");
+                cookieText
+                    .AppendLine($"<td>{HttpUtility.HtmlEncode(cookie.Name)}</td>");
+                cookieText
+                    .AppendLine($"<td>{HttpUtility.HtmlEncode(cookie.Value)}</td>");
+                cookieText.Append("</tr>");                
+            }
+
+            cookieText.Append("</table>");
+
+            bodyText = cookieText.ToString();
+        }
+        else
+        {
+            bodyText = "<h1>Cookies set!</h1>";
+
+            response.Cookies.Add("My-Cookie", "My-Value");
+            response.Cookies.Add("My-Second-Cookie", "My-Second-Value");
+        }
+
+        //if (!requestHasCookies)
+        //{
+        //    response.Cookies.Add("My-Cookie", "My-Value");
+        //    response.Cookies.Add("My-Second-Cookie", "My-Second-Value");
+        //} 
+        
+        response.Body = bodyText;
+    }
     private static void AddFormDataAction(Request request, Response response)
     {
         response.Body = string.Empty;

@@ -7,16 +7,16 @@ namespace BasicWebServer.Server.HTTP
         public Response(StatusCode statusCode)
         {
             StatusCode = statusCode;
-
-            Headers = new HeaderCollection();
+           
             Headers.Add(Header.Server, "My Web Server");
-            Headers.Add(Header.Date, $"{DateTime.UtcNow:R}");
-            
+            Headers.Add(Header.Date, $"{DateTime.UtcNow:R}");       
         }
 
         public StatusCode StatusCode { get; init; }
 
-        public HeaderCollection Headers { get; } 
+        public HeaderCollection Headers { get; } = new HeaderCollection();
+
+        public CookieCollection Cookies { get; } = new CookieCollection();
 
         public string Body { get; set; }
 
@@ -31,6 +31,11 @@ namespace BasicWebServer.Server.HTTP
             foreach (var header in Headers)
             {
                 result.AppendLine(header.ToString());
+            }
+
+            foreach (var cookie in Cookies) 
+            { 
+                result.AppendLine($"{Header.SetCookie}: {cookie}");
             }
 
             result.AppendLine();
