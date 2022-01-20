@@ -62,10 +62,24 @@ namespace BasicWebServer.Server
                         response.PreRenderAction(request, response);
                     }
 
+                    AddSession(request, response);
+
                     await WriteResponce(networkStream, response);
 
                     connection.Close();
                 });
+            }
+        }
+
+        private static void AddSession(Request request, Response response)
+        {
+            var sessionExists = request.Session
+                .ContainsKey(Session.SessionCurrentDateKey);
+
+            if (!sessionExists)
+            {
+                request.Session[Session.SessionCurrentDateKey] = DateTime.UtcNow.ToString();
+                response.Cookies.Add(Session.SessionCookieName, request.Session.Id);
             }
         }
 

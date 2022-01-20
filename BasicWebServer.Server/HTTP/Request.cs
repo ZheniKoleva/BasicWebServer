@@ -4,6 +4,7 @@ namespace BasicWebServer.Server.HTTP
 {
     public class Request
     {
+        private static Dictionary<string, Session> Sessions = new();
         public Method Method { get; private set; }
 
         public string Url { get; private set; }
@@ -14,6 +15,8 @@ namespace BasicWebServer.Server.HTTP
 
         public string Body { get; private set; }
 
+        public Session Session { get; private set; }
+
         public IReadOnlyDictionary<string, string> Form { get; private set; }
 
         public static Request Parse(string request)
@@ -23,13 +26,18 @@ namespace BasicWebServer.Server.HTTP
             var startLine = lines.First().Split(" ");
 
             var method = ParseMethod(startLine[0]);
+
             var url = startLine[1];
+
             var headers = ParseHeaders(lines.Skip(1));
+
             var cookies = ParseCookies(headers);
+
+            var session = GetSession(cookies);
 
             var bodyLines = lines.Skip(headers.Count + 2);
 
-            var body = string.Join("\r\n", bodyLines);
+            var body = string.Join(Environment.NewLine, bodyLines);
 
             var form = ParseForm(headers, body);
 
@@ -40,8 +48,23 @@ namespace BasicWebServer.Server.HTTP
                 Headers = headers,
                 Cookies = cookies,
                 Body = body,
+                Session = session,
                 Form = form
             };
+        }
+
+        private static Session GetSession(CookieCollection cookies)
+        {
+            var sessionId = cookies.Contains(Session.SessionCookieName)
+                ? cookies[Session.SessionCookieName]
+                : Guid.NewGuid().ToString();
+
+            if (!Sessions.ContainsKey(sessionId))
+            {
+                Sessions[sessionId] = new Session(sessionId);
+            }
+
+            return Sessions[sessionId];
         }
 
         private static CookieCollection ParseCookies(HeaderCollection headers)
