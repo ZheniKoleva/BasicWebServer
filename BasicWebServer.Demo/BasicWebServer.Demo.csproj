@@ -15,6 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Views\Home\HtmlFormPost.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="Views\Home\Content.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
