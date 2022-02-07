@@ -1,4 +1,5 @@
 ﻿using BasicWebServer.Server;
+using BasicWebServer.Server.Controllers;
 using BasicWebServer.Server.HTTP;
 using BasicWebServer.Server.Responses;
 using System.Text;
@@ -36,20 +37,22 @@ Age: <input type='number' name ='Age'/>
             new string[] { "https://judge.softuni.org", "https://softuni.org" });
 
         var server = new HttpServer(routes => routes
-            .MapGet("/", new TextResponse("Hello from the server!"))
-            .MapGet("/Redirect", new RedirectResponse("https://softuni.org"))
-            .MapGet("/HTML", new HtmlResponse(StartUp.HtmlForm))
-            .MapPost("/HTML", new TextResponse("", StartUp.AddFormDataAction))
-            .MapGet("/Content", new HtmlResponse(StartUp.DownloadForm))
-            .MapPost("/Content", new TextFileResponse(StartUp.FileName))
-            .MapGet("/Cookies", new HtmlResponse("", StartUp.AddCookiesAction))
-            .MapGet("/Session", new TextResponse("", StartUp.DisplaySessionInfoAction))
-            .MapGet("/Login", new HtmlResponse(StartUp.LoginForm))
-            .MapPost("/Login", new HtmlResponse("", StartUp.LoginAction))
-            .MapGet("/Logout", new HtmlResponse("", StartUp.LogoutAction))
-            .MapGet("/UserProfile", new HtmlResponse("", StartUp.GetUserDataAction)));
+        .MapGet<HomeController>("/", c => c.Index()));
+        //.MapGet<HomeController>("/Redirect", c => c.Redirect()))
+        // .MapGet<HomeController>("/HTML", c => c.Html())
+        // .MapPost<HomeController>("/HTML", c => c.HtmlFormPost())
+        // .MapGet<HomeController>("/Content", c => c.Content())
+        // .MapPost<HomeController>("/Content", c => c.DownloadContent())
+        // .MapGet<HomeController>("/Cookies", c => c.Cookies())
+        // .MapGet<HomeController>("/Session", c => c.Session());
 
         await server.Start();
+        //.MapGet("/Login", new HtmlResponse(StartUp.LoginForm))
+        //.MapPost("/Login", new HtmlResponse("", StartUp.LoginAction))
+        //.MapGet("/Logout", new HtmlResponse("", StartUp.LogoutAction))
+        //.MapGet("/UserProfile", new HtmlResponse("", StartUp.GetUserDataAction)))
+
+
     }
 
     private static void GetUserDataAction(Request request, Response response)
@@ -57,14 +60,14 @@ Age: <input type='number' name ='Age'/>
         if (request.Session.ContainsKey(Session.SessionUserKey))
         {
             response.Body = string.Empty;
-            response.Body += $"<h3>Currently logged-in user is with username '{Username}'</h3>"; 
+            response.Body += $"<h3>Currently logged-in user is with username '{Username}'</h3>";
         }
         else
         {
             response.Body = string.Empty;
             response.Body += $"<h3>You should first log in - <a href='/Login'>Login</a></h3>";
         }
-    } 
+    }
 
     private static void LogoutAction(Request request, Response response)
     {
@@ -90,7 +93,7 @@ Age: <input type='number' name ='Age'/>
 
             bodyText = "<h3>Logged successfully!</h3>";
         }
-        else 
+        else
         {
             bodyText = StartUp.LoginForm;
         }
@@ -142,7 +145,7 @@ Age: <input type='number' name ='Age'/>
                     .AppendLine($"<td>{HttpUtility.HtmlEncode(cookie.Name)}</td>");
                 cookieText
                     .AppendLine($"<td>{HttpUtility.HtmlEncode(cookie.Value)}</td>");
-                cookieText.Append("</tr>");                
+                cookieText.Append("</tr>");
             }
 
             cookieText.Append("</table>");
@@ -162,7 +165,7 @@ Age: <input type='number' name ='Age'/>
         //    response.Cookies.Add("My-Cookie", "My-Value");
         //    response.Cookies.Add("My-Second-Cookie", "My-Second-Value");
         //} 
-        
+
         response.Body = bodyText;
     }
 
