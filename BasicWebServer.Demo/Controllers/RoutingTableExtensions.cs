@@ -1,6 +1,8 @@
-﻿using BasicWebServer.Server.HTTP;
+﻿using BasicWebServer.Server.Controllers;
+using BasicWebServer.Server.HTTP;
 using BasicWebServer.Server.Routing;
-namespace BasicWebServer.Server.Controllers
+
+namespace BasicWebServer.Demo.Controllers
 {
     public static class RoutingTableExtensions
     {
@@ -23,6 +25,6 @@ namespace BasicWebServer.Server.Controllers
 
         private static TController CreateController<TController>(Request request)
             => (TController)Activator.CreateInstance(typeof(TController), new[] { request });
-       
+
     }
 }
