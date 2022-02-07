@@ -1,6 +1,7 @@
-﻿using BasicWebServer.Server.HTTP;
+﻿using BasicWebServer.Server.Controllers;
+using BasicWebServer.Server.HTTP;
 
-namespace BasicWebServer.Server.Controllers
+namespace BasicWebServer.Demo.Controllers
 {
     public class UserController : Controller
     {
@@ -15,7 +16,7 @@ namespace BasicWebServer.Server.Controllers
         private const string Password = "user123";
 
 
-        public UserController(Request request) 
+        public UserController(Request request)
             : base(request)
         {
         }
@@ -24,10 +25,10 @@ namespace BasicWebServer.Server.Controllers
 
         public Response LogInUser()
         {
-            Request.Session.Clear();            
+            Request.Session.Clear();
 
-            var usernameMatches = Request.Form["Username"] == UserController.Username;
-            var passwordMatches = Request.Form["Password"] == UserController.Password;
+            var usernameMatches = Request.Form["Username"] == Username;
+            var passwordMatches = Request.Form["Password"] == Password;
 
             if (usernameMatches && passwordMatches)
             {
@@ -52,7 +53,7 @@ namespace BasicWebServer.Server.Controllers
         {
             if (Request.Session.ContainsKey(Session.SessionUserKey))
             {
-                return Html($"<h3>Currently logged-in user is with username '{UserController.Username}'</h3>");
+                return Html($"<h3>Currently logged-in user is with username '{Username}'</h3>");
             }
 
             return Redirect("/Login");

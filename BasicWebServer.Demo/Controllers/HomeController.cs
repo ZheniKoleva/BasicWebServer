@@ -1,8 +1,9 @@
-﻿using BasicWebServer.Server.HTTP;
+﻿using BasicWebServer.Server.Controllers;
+using BasicWebServer.Server.HTTP;
 using System.Text;
 using System.Web;
 
-namespace BasicWebServer.Server.Controllers
+namespace BasicWebServer.Demo.Controllers
 {
     public class HomeController : Controller
     {
@@ -47,7 +48,7 @@ Age: <input type='number' name ='Age'/>
         {
             string currentDateKey = "CurrentDate";
 
-            var sessionExists = Request.Session.ContainsKey(currentDateKey);            
+            var sessionExists = Request.Session.ContainsKey(currentDateKey);
 
             if (sessionExists)
             {
@@ -62,8 +63,8 @@ Age: <input type='number' name ='Age'/>
         public Response Cookies()
         {
             if (Request.Cookies.Any(c => c.Name !=
-               BasicWebServer.Server.HTTP.Session.SessionCookieName))
-            {              
+               Server.HTTP.Session.SessionCookieName))
+            {
 
                 var cookieText = new StringBuilder();
                 cookieText.AppendLine("<h1>Cookies</h1>");
@@ -90,15 +91,15 @@ Age: <input type='number' name ='Age'/>
             cookies.Add("My-Second-Cookie", "My-Second-Value");
 
             return Html("<h1>Cookies set!</h1>", cookies);
-        }        
+        }
 
         public Response DownloadContent()
         {
-            DownloadSiteAsTextFile(HomeController.FileName,
+            DownloadSiteAsTextFile(FileName,
                 new string[] { "https://judge.softuni.org", "https://softuni.org" })
                 .Wait();
 
-            return File(HomeController.FileName);
+            return File(FileName);
         }
 
         public Response Content() => View();

@@ -1,5 +1,5 @@
-﻿using BasicWebServer.Server;
-using BasicWebServer.Server.Controllers;
+﻿using BasicWebServer.Demo.Controllers;
+using BasicWebServer.Server;
 
 public class StartUp
 {
