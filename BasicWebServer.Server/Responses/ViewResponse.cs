@@ -7,14 +7,14 @@ namespace BasicWebServer.Server.Responses
         private const char PathSeparator = '/';
 
         public ViewResponse(string viewName, string controllerName, object model = null)
-            : base("", ContentType.Html)
+            : base(string.Empty, ContentType.Html)
         {
             if (!viewName.Contains(PathSeparator))
             {
                 viewName = controllerName + PathSeparator + viewName;
             }
 
-            var viewPath = Path.GetDirectoryName($"./Views/{viewName.TrimStart(PathSeparator)}.cshtml");
+            var viewPath = Path.GetFullPath($"./Views/{viewName.TrimStart(PathSeparator)}.cshtml");
 
             var viewContent = File.ReadAllText(viewPath);
 
