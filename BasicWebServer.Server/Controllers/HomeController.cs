@@ -28,7 +28,7 @@ Age: <input type='number' name ='Age'/>
 
         public Response Redirect() => Redirect("https://softuni.org/");
 
-        public Response Html() => Html(HomeController.HtmlForm);
+        public Response Html() => View();
 
         public Response HtmlFormPost()
         {
@@ -101,7 +101,7 @@ Age: <input type='number' name ='Age'/>
             return File(HomeController.FileName);
         }
 
-        public Response Content() => Html(HomeController.DownloadForm);
+        public Response Content() => View();
 
 
         private static async Task<string> DownloadWebSiteContent(string url)

@@ -20,7 +20,7 @@ namespace BasicWebServer.Server.Controllers
         {
         }
 
-        public Response Login() => Html(UserController.LoginForm);
+        public Response Login() => View();
 
         public Response LogInUser()
         {
