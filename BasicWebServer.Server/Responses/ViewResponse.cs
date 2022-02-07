@@ -14,9 +14,7 @@ namespace BasicWebServer.Server.Responses
                 viewName = controllerName + PathSeparator + viewName;
             }
 
-            var viewPath = Path.GetDirectoryName($"./Views/" + 
-                viewName.TrimStart(PathSeparator)
-                + ".cshtml");
+            var viewPath = Path.GetDirectoryName($"./Views/{viewName.TrimStart(PathSeparator)}.cshtml");
 
             var viewContent = File.ReadAllText(viewPath);
 
