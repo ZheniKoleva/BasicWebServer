@@ -5,11 +5,11 @@ namespace BasicWebServer.Server.Controllers
     public static class RoutingTableExtensions
     {
         public static IRoutingTable MapGet<TController>(
-            this IRoutingTable routing,
+            this IRoutingTable routingTable,
             string path,
             Func<TController, Response> controllerFunction)
             where TController : Controller
-            => RoutingTable.MapPost(path, request => controllerFunction(
+            => routingTable.MapPost(path, request => controllerFunction(
                 CreateController<TController>(request)));
 
         private static TController CreateController<TController>(Request request)
