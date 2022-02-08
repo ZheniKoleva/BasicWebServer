@@ -123,7 +123,7 @@ namespace BasicWebServer.Demo.Controllers
 
             var responsesString = string.Join(Environment.NewLine + new string('-', 100), responses);
 
-            //await File.WriteAllTextAsync(fileName, responsesString);
+            await System.IO.File.WriteAllTextAsync(fileName, responsesString);
         }
     }
 }
