@@ -1,7 +1,7 @@
-﻿using BasicWebServer.Server.HTTP;
-using BasicWebServer.Server.Routing;
+﻿using BasicWebServer.Server.Controllers;
+using BasicWebServer.Server.HTTP;
 
-namespace BasicWebServer.Server.Controllers
+namespace BasicWebServer.Server.Routing
 {
     public static class RoutingTableExtensions
     {
